@@ -17,15 +17,13 @@
                 android:id="@+id/row_title"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="0.5"
-                tools:text="titleでdす" />
+                android:layout_weight="0.5" />
 
             <TextView
                 android:id="@+id/row_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="0.5"
-                tools:text="詳細ですよ詳細ですよ詳細ですよ詳細ですよ詳細ですよ" />
+                android:layout_weight="0.5" />
 
         </LinearLayout>
 
