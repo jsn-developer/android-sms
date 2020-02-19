@@ -27,6 +27,8 @@
 
         <activity android:name=".DialogActivity">
         </activity>
+        <activity android:name=".InitializerActivity">
+        </activity>
     </application>
 
 </manifest>
