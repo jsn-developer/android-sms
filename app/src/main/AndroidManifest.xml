@@ -17,7 +17,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".com.example.samplesms.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,9 +25,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".DialogActivity">
+        <activity android:name=".com.example.samplesms.activity.DialogActivity">
         </activity>
-        <activity android:name=".InitializerActivity">
+        <activity android:name=".com.example.samplesms.activity.InitializerActivity">
         </activity>
     </application>
 
