@@ -12,6 +12,13 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import org.json.JSONException
 import org.json.JSONObject
+import com.fasterxml.jackson.databind.ObjectMapper
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import com.example.samplesms.com.example.samplesms.entity.MyData
+import io.realm.Realm
+import io.realm.RealmResults
+
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -33,10 +40,27 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //            Log.d("rykomatsu",message.toString())
 
             // rxJavaをappレベルのbuild.gradleに記述しないと競合して動かない
-            message = mapper.readValue(remoteMessage?.data?.toString())
+            val json: String = mapper.writeValueAsString(remoteMessage?.data)
+            message = mapper.readValue(json)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
+
+        Realm.init(this)
+        val mRealm = Realm.getDefaultInstance()
+        mRealm.executeTransaction {
+            mRealm.insert(
+                Message(
+                    "",
+                    message?.fromUserName,
+                    message?.message,
+                    message?.createAt,
+                    message?.isYourself
+                )
+            )
+        }
+        val messages: RealmResults<Message> = mRealm.where(Message::class.java).findAll()
+        Log.d("message確認", message?.toString())
 
         // 明示的にIntentの生成
         var intent: Intent = Intent(applicationContext, DialogActivity::class.java)

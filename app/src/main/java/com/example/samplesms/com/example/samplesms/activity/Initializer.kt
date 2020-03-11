@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.example.samplesms.Configuration
 import com.example.samplesms.R
 import io.realm.Realm
@@ -38,21 +39,24 @@ class InitializerActivity : AppCompatActivity() {
 
             val name = findViewById<EditText>(R.id.editText).text.toString()
 
-            // 名前の入力が無い場合は何もしない
-            // TODO 入力を促すメッセージを表示したい
+            // 名前の入力が無い場合は入力を促して終了
+            // バリデーションで英, 漢字, 一部記号や数字のみ入力可能にしたい
+            // ~[英漢]+[記数英漢]*$　など
             if (name == null || name == "") {
+                Toast.makeText(applicationContext, "名前を入力してください", Toast.LENGTH_SHORT).show();
                 return@setOnClickListener
+            } else {
+
+                // ユーザー情報をrealmに保存
+                saveUserInfo(name)
+
+                // 初回起動フラグをOFF
+                Configuration.setFirstFlag(applicationContext, false)
+
+                // 呼び出し元Activityに戻る
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             }
-
-            // ユーザー情報をrealmに保存
-            saveUserInfo(name)
-
-            // 初回起動フラグをOFF
-            Configuration.setFirstFlag(applicationContext, false)
-
-            // 呼び出し元Activityに戻る
-            setResult(Activity.RESULT_OK, intent)
-            finish()
         }
     }
 
