@@ -2,7 +2,6 @@ package com.example.samplesms
 
 
 import android.content.Intent
-import android.util.Log
 import com.example.samplesms.com.example.samplesms.activity.DialogActivity
 import com.example.samplesms.com.example.samplesms.entity.Message
 import com.fasterxml.jackson.core.JsonParser
@@ -11,13 +10,8 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import org.json.JSONException
-import org.json.JSONObject
-import com.fasterxml.jackson.databind.ObjectMapper
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import com.example.samplesms.com.example.samplesms.entity.MyData
 import io.realm.Realm
-import io.realm.RealmResults
+import java.util.*
 
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
@@ -28,7 +22,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val mapper = jacksonObjectMapper()
         mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true)
 
-        var message: Message = Message()
+        var receivedMessage: Message = Message()
 
         // JSONをパースする
         try {
@@ -41,26 +35,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
             // rxJavaをappレベルのbuild.gradleに記述しないと競合して動かない
             val json: String = mapper.writeValueAsString(remoteMessage?.data)
-            message = mapper.readValue(json)
+            receivedMessage = mapper.readValue(json)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
 
+        // DB操作
         Realm.init(this)
         val mRealm = Realm.getDefaultInstance()
         mRealm.executeTransaction {
-            mRealm.insert(
-                Message(
-                    "",
-                    message?.fromUserName,
-                    message?.message,
-                    message?.createAt,
-                    message?.isYourself
-                )
-            )
+            // メッセージを登録
+            val message = mRealm.createObject(Message::class.java, UUID.randomUUID().toString())
+            message.fromUserName = receivedMessage?.fromUserName
+            message.message = receivedMessage?.message
+            message.createAt = receivedMessage?.createAt
+            message.fromUserId = receivedMessage?.fromUserId
         }
-        val messages: RealmResults<Message> = mRealm.where(Message::class.java).findAll()
-        Log.d("message確認", message?.toString())
+
 
         // 明示的にIntentの生成
         var intent: Intent = Intent(applicationContext, DialogActivity::class.java)
@@ -69,8 +60,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         //intentに情報の付加
-        intent.putExtra("title", message?.fromUserName)
-        intent.putExtra("message", message?.message)
+        intent.putExtra("title", receivedMessage?.fromUserName)
+        intent.putExtra("message", receivedMessage?.message)
 
         // Activityの起動
         startActivity(intent)

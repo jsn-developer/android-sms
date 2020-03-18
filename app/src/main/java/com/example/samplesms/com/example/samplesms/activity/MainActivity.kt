@@ -4,13 +4,20 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import com.example.samplesms.Configuration
+import com.example.samplesms.MyApplication
 import com.example.samplesms.R
 import com.example.samplesms.TabAdapter
+import com.example.samplesms.com.example.samplesms.entity.Message
 import com.example.samplesms.com.example.samplesms.entity.MyData
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import io.realm.Realm
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -20,8 +27,29 @@ class MainActivity : AppCompatActivity() {
 
     val REQUEST_CODE = 1
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    fun dbCheck() {
+        // DB内の確認
+        Realm.init(this)
+        val messages: RealmResults<Message>? =
+            MyApplication.getRealm()?.where(Message::class.java)?.findAll()
+        Log.d("message確認", "<---- ここから---->")
+        for (m in messages) {
+            Log.d("message確認", m?.createAt?.toString())
+            Log.d("message確認", m?.fromUserId?.toString())
+            Log.d("message確認", m?.fromUserName?.toString())
+            Log.d("message確認", m?.message?.toString())
+            Log.d("message確認", m?.id?.toString())
+        }
+        Log.d("message確認", "<---- ここまで ---->")
+    }
 
+    fun getMyData(): MyData?{
+        Realm.init(this)
+        return MyApplication.getRealm()?.where(MyData::class.java)?.findFirst()
+    }
+
+    fun getToken() {
+        // トークン取得
         FirebaseInstanceId.getInstance().instanceId
             .addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -32,8 +60,18 @@ class MainActivity : AppCompatActivity() {
                 val token = task.result?.token
 
                 // Log and toast
-                Log.d("rykomatsu", token.toString())
+                Log.d("token", token.toString())
             })
+    }
+
+    fun createFragment() {
+        // フラグメント描画
+        pager.adapter = TabAdapter(supportFragmentManager, this)
+        tab_layout.setupWithViewPager(pager)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        getToken()
 
         // もし初回起動ならスタート画面に遷移する
         if (Configuration.isFirst(applicationContext)) {
@@ -45,9 +83,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // フラグメント描画
-        pager.adapter = TabAdapter(supportFragmentManager, this)
-        tab_layout.setupWithViewPager(pager)
+        createFragment()
+
     }
 
     /**
@@ -57,10 +94,10 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         // Initializerから戻ってきた場合
-        if(requestCode == this.REQUEST_CODE){
+        if (requestCode == this.REQUEST_CODE) {
             Realm.init(this)
-            val mRealm = Realm.getDefaultInstance()
-            val user = mRealm.where(MyData::class.java).findFirst()
+            val mRealm = MyApplication.getRealm()
+            val user = mRealm?.where(MyData::class.java)?.findFirst()
             Log.d("username", user?.name)
         }
     }

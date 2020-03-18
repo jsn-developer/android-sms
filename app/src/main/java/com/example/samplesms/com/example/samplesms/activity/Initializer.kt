@@ -4,13 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.samplesms.Configuration
+import com.example.samplesms.MyApplication
 import com.example.samplesms.R
 import io.realm.Realm
 import com.example.samplesms.com.example.samplesms.entity.MyData
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 /**
@@ -60,14 +63,28 @@ class InitializerActivity : AppCompatActivity() {
         }
     }
 
+    fun createToken(){
+    }
+
     /**
      * ユーザー情報をDBに保存する
      */
     fun saveUserInfo(name: String) {
         Realm.init(this)
-        val mRealm = Realm.getDefaultInstance()
+        val mRealm = MyApplication.getRealm()
         mRealm.executeTransaction {
             mRealm.insert(MyData("1", name))
         }
+
+        // 通信のため、トピック（グループ）をfirebaseに登録する
+        FirebaseMessaging.getInstance().subscribeToTopic("sample_sms")
+            .addOnCompleteListener { task ->
+                var msg = "true"
+                if (!task.isSuccessful) {
+                    msg = "false"
+                }
+                Log.d("rykomatsu", msg)
+                Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+            }
     }
 }

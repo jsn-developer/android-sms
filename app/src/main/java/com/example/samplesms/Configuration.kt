@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import android.preference.PreferenceManager
+import io.realm.Realm
+import io.realm.RealmConfiguration
+
 
 /**
  * 設定ファイルの操作

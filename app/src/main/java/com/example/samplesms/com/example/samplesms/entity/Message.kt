@@ -16,12 +16,12 @@ open class Message(
     /**
      * 送信ユーザー名
      */
-    @Required @JsonProperty("user_name") open var fromUserName : String = "",
+    @Required @JsonProperty("user_name") open var fromUserName : String? = "",
 
     /**
      * メッセージ内容
      */
-    @Required @JsonProperty("message") open var message : String = "",
+    @Required @JsonProperty("message") open var message : String? = "",
 
     /**
      * 受信時刻
@@ -29,9 +29,7 @@ open class Message(
     @Required @JsonProperty("create_at") open var createAt : Date = Date(),
 
     /**
-     * 送信者識別子
-     * true: 自分が送ったメッセージ
-     * false: 受信したメッセージ
+     * 送信ユーザーID
      */
-     @JsonProperty("is_yourself") open var isYourself : Boolean = false
+     @JsonProperty("user_id") open var fromUserId : String? = ""
 ) : RealmObject(){}
