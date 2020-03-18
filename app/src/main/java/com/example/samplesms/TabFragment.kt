@@ -56,16 +56,17 @@ class ChatFragment : Fragment() {
 
 
             // DB初期化
-            val mRealm = MyApplication.getRealm()
+            Realm.init(context)
+            val mRealm = Realm.getDefaultInstance()
 
             // 送信者の情報を取得
-            val mydata: MyData? = mRealm?.where(MyData::class.java)?.findFirst()
+            val mydata: MyData? = mRealm.where(MyData::class.java).findFirst()
 
 
             var message: Message? = null
-            mRealm?.executeTransaction {
+            mRealm.executeTransaction {
                 // メッセージを登録
-                message = mRealm?.createObject(Message::class.java, UUID.randomUUID().toString())
+                message = mRealm.createObject(Message::class.java, UUID.randomUUID().toString())
                 message?.fromUserName = mydata?.name
                 message?.message = text
                 message?.createAt = Date()

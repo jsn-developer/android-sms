@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.samplesms.Configuration
-import com.example.samplesms.MyApplication
 import com.example.samplesms.R
 import io.realm.Realm
 import com.example.samplesms.com.example.samplesms.entity.MyData
@@ -71,7 +70,7 @@ class InitializerActivity : AppCompatActivity() {
      */
     fun saveUserInfo(name: String) {
         Realm.init(this)
-        val mRealm = MyApplication.getRealm()
+        val mRealm = Realm.getDefaultInstance()
         mRealm.executeTransaction {
             mRealm.insert(MyData("1", name))
         }

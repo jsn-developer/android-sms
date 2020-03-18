@@ -4,18 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
 import com.example.samplesms.Configuration
-import com.example.samplesms.MyApplication
 import com.example.samplesms.R
 import com.example.samplesms.TabAdapter
 import com.example.samplesms.com.example.samplesms.entity.Message
 import com.example.samplesms.com.example.samplesms.entity.MyData
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
-import com.google.firebase.messaging.FirebaseMessaging
 import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
@@ -30,8 +25,8 @@ class MainActivity : AppCompatActivity() {
     fun dbCheck() {
         // DB内の確認
         Realm.init(this)
-        val messages: RealmResults<Message>? =
-            MyApplication.getRealm()?.where(Message::class.java)?.findAll()
+        val messages: RealmResults<Message> =
+            Realm.getDefaultInstance().where(Message::class.java).findAll()
         Log.d("message確認", "<---- ここから---->")
         for (m in messages) {
             Log.d("message確認", m?.createAt?.toString())
@@ -45,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     fun getMyData(): MyData?{
         Realm.init(this)
-        return MyApplication.getRealm()?.where(MyData::class.java)?.findFirst()
+        return Realm.getDefaultInstance().where(MyData::class.java).findFirst()
     }
 
     fun getToken() {
@@ -96,8 +91,8 @@ class MainActivity : AppCompatActivity() {
         // Initializerから戻ってきた場合
         if (requestCode == this.REQUEST_CODE) {
             Realm.init(this)
-            val mRealm = MyApplication.getRealm()
-            val user = mRealm?.where(MyData::class.java)?.findFirst()
+            val mRealm = Realm.getDefaultInstance()
+            val user = mRealm.where(MyData::class.java).findFirst()
             Log.d("username", user?.name)
         }
     }
