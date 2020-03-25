@@ -71,21 +71,9 @@ class ChatFragment : Fragment() {
                 message?.fromUserId = mydata?.id
             }
 
-            val data: String =
-                "{ \"to\" : \"/topics/sample_sms\",  \"data\" : { \"message\": \"hello\" } }"
-            val mediaType = MediaType.parse("application/json")
+            if (message == null) return@setOnClickListener
 
-            // メッセージ内容をjsonにする
-            val mapper: ObjectMapper = ObjectMapper()
-            mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-
-            val sendMessage = Message()
-//            sendMessage.id=
-            var messageJson: String = mapper.writeValueAsString(message)
-
-            Log.d("json", messageJson)
-
-
+            HttpClient().getWithUrlString(message!!)
         }
     }
 }

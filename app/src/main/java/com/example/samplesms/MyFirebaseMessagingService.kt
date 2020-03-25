@@ -22,8 +22,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val mapper = jacksonObjectMapper()
         mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true)
 
-        var receivedMessage: Message =
-            Message()
+        var receivedMessage: Message? = null
 
         // JSONをパースする
         try {
@@ -48,7 +47,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val message = mRealm.createObject(Message::class.java, UUID.randomUUID().toString())
             message.fromUserName = receivedMessage?.fromUserName
             message.message = receivedMessage?.message
-            message.createAt = receivedMessage?.createAt
             message.fromUserId = receivedMessage?.fromUserId
         }
 
