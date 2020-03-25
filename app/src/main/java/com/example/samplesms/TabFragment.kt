@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.samplesms.com.example.samplesms.entity.Message
 import com.example.samplesms.com.example.samplesms.entity.MyData
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import io.realm.Realm
 import io.realm.RealmResults
 import okhttp3.MediaType
@@ -56,12 +57,10 @@ class ChatFragment : Fragment() {
 
 
             // DB初期化
-            Realm.init(context)
             val mRealm = Realm.getDefaultInstance()
 
             // 送信者の情報を取得
             val mydata: MyData? = mRealm.where(MyData::class.java).findFirst()
-
 
             var message: Message? = null
             mRealm.executeTransaction {
@@ -79,7 +78,11 @@ class ChatFragment : Fragment() {
 
             // メッセージ内容をjsonにする
             val mapper: ObjectMapper = ObjectMapper()
-            val messageJson: String = mapper.writeValueAsString(message)
+            mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+
+            val sendMessage = Message()
+//            sendMessage.id=
+            var messageJson: String = mapper.writeValueAsString(message)
 
             Log.d("json", messageJson)
 

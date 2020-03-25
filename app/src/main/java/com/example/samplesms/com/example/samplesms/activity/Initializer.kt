@@ -69,7 +69,6 @@ class InitializerActivity : AppCompatActivity() {
      * ユーザー情報をDBに保存する
      */
     fun saveUserInfo(name: String) {
-        Realm.init(this)
         val mRealm = Realm.getDefaultInstance()
         mRealm.executeTransaction {
             mRealm.insert(MyData("1", name))

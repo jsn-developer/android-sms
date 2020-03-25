@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
 
     fun dbCheck() {
         // DB内の確認
-        Realm.init(this)
         val messages: RealmResults<Message> =
             Realm.getDefaultInstance().where(Message::class.java).findAll()
         Log.d("message確認", "<---- ここから---->")
@@ -39,7 +38,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getMyData(): MyData?{
-        Realm.init(this)
         return Realm.getDefaultInstance().where(MyData::class.java).findFirst()
     }
 
@@ -67,6 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         getToken()
+        dbCheck()
 
         // もし初回起動ならスタート画面に遷移する
         if (Configuration.isFirst(applicationContext)) {
@@ -90,7 +89,6 @@ class MainActivity : AppCompatActivity() {
 
         // Initializerから戻ってきた場合
         if (requestCode == this.REQUEST_CODE) {
-            Realm.init(this)
             val mRealm = Realm.getDefaultInstance()
             val user = mRealm.where(MyData::class.java).findFirst()
             Log.d("username", user?.name)

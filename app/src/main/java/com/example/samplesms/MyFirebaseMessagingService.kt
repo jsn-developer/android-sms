@@ -41,7 +41,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
 
         // DB操作
-        Realm.init(this)
         val mRealm = Realm.getDefaultInstance()
         mRealm.executeTransaction {
             // メッセージを登録
