@@ -1,4 +1,4 @@
-package com.example.samplesms.com.example.samplesms.activity
+package com.example.samplesms.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,8 +7,8 @@ import android.util.Log
 import com.example.samplesms.Configuration
 import com.example.samplesms.R
 import com.example.samplesms.TabAdapter
-import com.example.samplesms.com.example.samplesms.entity.Message
-import com.example.samplesms.com.example.samplesms.entity.MyData
+import com.example.samplesms.entity.Message
+import com.example.samplesms.entity.MyData
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import io.realm.Realm

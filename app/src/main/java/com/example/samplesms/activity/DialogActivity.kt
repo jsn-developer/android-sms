@@ -1,4 +1,4 @@
-package com.example.samplesms.com.example.samplesms.activity
+package com.example.samplesms.activity
 
 import android.content.Intent
 import android.os.Bundle

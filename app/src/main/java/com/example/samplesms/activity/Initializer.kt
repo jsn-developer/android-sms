@@ -1,4 +1,4 @@
-package com.example.samplesms.com.example.samplesms.activity
+package com.example.samplesms.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.example.samplesms.Configuration
 import com.example.samplesms.R
 import io.realm.Realm
-import com.example.samplesms.com.example.samplesms.entity.MyData
+import com.example.samplesms.entity.MyData
 import com.google.firebase.messaging.FirebaseMessaging
 
 

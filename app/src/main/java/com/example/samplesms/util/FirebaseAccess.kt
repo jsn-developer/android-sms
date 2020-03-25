@@ -1,10 +1,7 @@
-package com.example.samplesms.com.example.samplesms.com.example.samplesms.util
+package com.example.samplesms.util
 
-import android.app.Application
-import com.example.samplesms.Configuration
-import com.example.samplesms.com.example.samplesms.entity.Message
-import com.example.samplesms.com.example.samplesms.entity.MyData
-import com.google.firebase.messaging.FirebaseMessaging
+import com.example.samplesms.entity.Message
+import com.example.samplesms.entity.MyData
 import io.realm.Realm
 import java.util.*
 

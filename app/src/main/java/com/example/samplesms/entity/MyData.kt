@@ -1,4 +1,4 @@
-package com.example.samplesms.com.example.samplesms.entity
+package com.example.samplesms.entity
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey

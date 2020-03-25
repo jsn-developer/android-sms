@@ -1,4 +1,4 @@
-package com.example.samplesms.com.example.samplesms.entity
+package com.example.samplesms.entity
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.realm.RealmObject

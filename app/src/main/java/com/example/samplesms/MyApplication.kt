@@ -1,4 +1,4 @@
-package com.example.samplesms.com.example.samplesms
+package com.example.samplesms
 
 import android.app.Application
 import io.realm.Realm

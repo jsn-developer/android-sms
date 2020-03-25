@@ -8,12 +8,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import com.example.samplesms.com.example.samplesms.entity.Message
-import com.example.samplesms.com.example.samplesms.entity.MyData
+import com.example.samplesms.entity.Message
+import com.example.samplesms.entity.MyData
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.realm.Realm
-import io.realm.RealmResults
 import okhttp3.MediaType
 import java.util.*
 

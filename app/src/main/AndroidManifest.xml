@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
-        android:name=".com.example.samplesms.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,7 +21,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".com.example.samplesms.activity.MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,9 +29,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".com.example.samplesms.activity.DialogActivity">
+        <activity android:name=".activity.DialogActivity">
         </activity>
-        <activity android:name=".com.example.samplesms.activity.InitializerActivity">
+        <activity android:name=".activity.InitializerActivity">
         </activity>
     </application>
 

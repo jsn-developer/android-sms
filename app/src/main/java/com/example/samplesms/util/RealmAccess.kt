@@ -1,7 +1,7 @@
-package com.example.samplesms.com.example.samplesms.com.example.samplesms.util
+package com.example.samplesms.util
 
 import android.util.Log
-import com.example.samplesms.com.example.samplesms.entity.MyData
+import com.example.samplesms.entity.MyData
 import io.realm.Realm
 
 class RealmAccess {

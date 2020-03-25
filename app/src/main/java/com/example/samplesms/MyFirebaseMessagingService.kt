@@ -2,8 +2,8 @@ package com.example.samplesms
 
 
 import android.content.Intent
-import com.example.samplesms.com.example.samplesms.activity.DialogActivity
-import com.example.samplesms.com.example.samplesms.entity.Message
+import com.example.samplesms.activity.DialogActivity
+import com.example.samplesms.entity.Message
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -22,7 +22,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val mapper = jacksonObjectMapper()
         mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true)
 
-        var receivedMessage: Message = Message()
+        var receivedMessage: Message =
+            Message()
 
         // JSONをパースする
         try {
